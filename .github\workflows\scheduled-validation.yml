@@ -1,0 +1,23 @@
+name: Scheduled validation run
+on:
+  schedule:
+    - cron: '17 1 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  generate-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install .
+      - name: Generate and validate 500 deterministic records
+        run: data-pipeline run --count 500 --profile standard --seed 42 --output reports
+      - uses: actions/upload-artifact@v4
+        with:
+          name: validation-report-${{ github.run_number }}
+          path: reports/
+          retention-days: 14

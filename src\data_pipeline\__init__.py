@@ -1,0 +1,2 @@
+"""Synthetic customer/order generation and validation pipeline."""
+__version__ = "1.0.0"

@@ -1,0 +1,24 @@
+name: Python checks
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: testdata
+          POSTGRES_USER: pipeline
+          POSTGRES_PASSWORD: pipeline
+        ports: [5432:5432]
+        options: >-
+          --health-cmd "pg_isready -U pipeline -d testdata"
+          --health-interval 5s --health-timeout 3s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e '.[dev]'
+      - run: pytest
+      - run: data-pipeline run --count 500 --profile standard --seed 42 --output reports
