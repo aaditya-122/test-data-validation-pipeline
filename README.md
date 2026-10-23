@@ -51,3 +51,7 @@ See `docs/data-contract.md` for field rules and report meanings.
 
 ## License
 MIT. See [LICENSE](LICENSE).
+
+## Interactive demo
+
+[Open the browser demo](https://aaditya-122.github.io/test-data-validation-pipeline/) to generate a sample batch, inspect validation findings, and download JSON/CSV reports. The page is an educational browser preview; the actual CLI uses Python and Faker and supports PostgreSQL persistence.
