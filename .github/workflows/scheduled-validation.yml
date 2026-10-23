@@ -1,5 +1,7 @@
 name: Scheduled validation run
 on:
+  push:
+    branches: [main]
   schedule:
     - cron: '17 1 * * *'
   workflow_dispatch:
@@ -21,3 +23,4 @@ jobs:
           name: validation-report-${{ github.run_number }}
           path: reports/
           retention-days: 14
+
